@@ -30,7 +30,11 @@ const config: Config = {
           dark: '#001E96',
         },
         blue: {
+          DEFAULT: '#2196F3',
           light: '#E8F2FF',
+        },
+        'list-item': {
+          odd: '#F7F9FF',
         },
         background: '#F7F9FF',
       },
