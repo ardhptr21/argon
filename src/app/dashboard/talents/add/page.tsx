@@ -10,8 +10,8 @@ export default function AddTalentDashboard() {
   const [step, setStep] = useState<number>(1);
 
   return (
-    <>
-      <section className='flex items-center justify-between'>
+    <div className='relative'>
+      <section className='flex items-center justify-between relative'>
         <h1 className='font-bold text-3xl inline-flex items-center gap-5'>Add Talent Information</h1>
         {step === 1 && (
           <Button onClick={() => setStep(step + 1)}>
@@ -21,8 +21,10 @@ export default function AddTalentDashboard() {
         )}
         {step === 2 && <Button>Save</Button>}
       </section>
-      {step === 1 && <FormTalent />}
-      {step === 2 && <AddTalentProject />}
-    </>
+      <section className='mt-10 relative'>
+        {step === 1 && <FormTalent />}
+        {step === 2 && <AddTalentProject />}
+      </section>
+    </div>
   );
 }

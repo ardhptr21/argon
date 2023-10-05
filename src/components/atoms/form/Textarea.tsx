@@ -1,5 +1,5 @@
 import clsx from 'clsx';
-import { InputHTMLAttributes, ReactNode } from 'react';
+import { TextareaHTMLAttributes } from 'react';
 
 const typeVariant = {
   filled: 'bg-white',
@@ -11,14 +11,14 @@ const sizeVariant = {
   base: 'py-4 px-5',
 };
 
-interface IProps extends Omit<InputHTMLAttributes<HTMLInputElement>, 'size'> {
+interface IProps extends TextareaHTMLAttributes<HTMLTextAreaElement> {
   label?: string;
-  left?: ReactNode;
+  className?: string;
   variant?: keyof typeof typeVariant;
   size?: keyof typeof sizeVariant;
 }
 
-export default function Input({ className, label, left, variant, size, ...props }: IProps) {
+export default function Textarea({ label, className, variant, ...props }: IProps) {
   return (
     <div className='flex flex-col gap-1'>
       {label && <p className='font-semibold'>{label}</p>}
@@ -26,15 +26,13 @@ export default function Input({ className, label, left, variant, size, ...props 
         className={clsx([
           'group flex items-center gap-3 border-2 border-gray-300 rounded focus-within:border-primary',
           typeVariant[variant || 'filled'],
-          sizeVariant[size || 'base'],
+          sizeVariant[props.size || 'base'],
           className,
         ])}
       >
-        {left && left}
-        <input
-          type='text'
-          className='outline-none font-semibold text-gray-500 placeholder:font-semibold placeholder:tracking-wide bg-transparent w-full'
+        <textarea
           {...props}
+          className='outline-none font-semibold text-gray-500 placeholder:font-semibold placeholder:tracking-wide bg-transparent w-full'
         />
       </div>
     </div>
