@@ -9,15 +9,17 @@ const variantStyle = {
 
 interface IProps extends ButtonHTMLAttributes<HTMLButtonElement>, PropsWithChildren {
   variant?: keyof typeof variantStyle;
+  className?: string;
 }
 
-export default function Button({ children, variant, ...props }: IProps) {
+export default function Button({ children, className, variant, ...props }: IProps) {
   return (
     <button
       {...props}
       className={clsx([
         'flex items-center justify-center gap-2 py-4 px-8 rounded font-medium duration-150',
         variantStyle[variant ?? 'primary'],
+        className,
       ])}
     >
       {children}

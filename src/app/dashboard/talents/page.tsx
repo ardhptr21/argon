@@ -1,6 +1,7 @@
 import Button from '@/components/atoms/Button';
 import Input from '@/components/atoms/form/Input';
 import TalentCard from '@/components/molecules/card/TalentCard';
+import Link from 'next/link';
 import { AiOutlinePlus, AiOutlineUnorderedList } from 'react-icons/ai';
 import { BiSearch } from 'react-icons/bi';
 import { BsPeople } from 'react-icons/bs';
@@ -15,10 +16,12 @@ export default function page() {
           List of Talent
         </h1>
         <div className='inline-flex items-center gap-2'>
-          <Button variant='bordered'>
-            <AiOutlinePlus size={20} />
-            Add Talent
-          </Button>
+          <Link href='/dashboard/talents/add'>
+            <Button variant='bordered'>
+              <AiOutlinePlus size={20} />
+              Add Talent
+            </Button>
+          </Link>
           <Button>
             <AiOutlineUnorderedList size={20} />
             Create New List
