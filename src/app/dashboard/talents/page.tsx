@@ -1,6 +1,6 @@
 import Button from '@/components/atoms/Button';
 import Input from '@/components/atoms/form/Input';
-import TalentCard from '@/components/organisms/TalentCard';
+import TalentCard from '@/components/molecules/card/TalentCard';
 import { AiOutlinePlus, AiOutlineUnorderedList } from 'react-icons/ai';
 import { BiSearch } from 'react-icons/bi';
 import { BsPeople } from 'react-icons/bs';

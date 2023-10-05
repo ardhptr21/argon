@@ -1,6 +1,5 @@
 import Link from 'next/link';
-import React from 'react';
-import TalentCard from './TalentCard';
+import TalentCard from '../molecules/card/TalentCard';
 
 export default function LatestTalent() {
   return (
