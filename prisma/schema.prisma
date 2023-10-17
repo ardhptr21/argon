@@ -8,14 +8,14 @@ datasource db {
 }
 
 model Talent {
-  id                 String   @id @default(uuid())
+  id                 String @id @default(uuid())
   avatar             String
   name               String
   mbti               String
   experience         Int
-  lastEducation      String   @map("last_education")
-  startEducationDate DateTime @map("start_education_date")
-  endEducationDate   DateTime @map("end_education_date")
+  lastEducation      String @map("last_education")
+  startEducationYear Int    @map("start_education_year")
+  endEducationYear   Int    @map("end_education_year")
 
   projects Project[]
 
@@ -30,9 +30,9 @@ model Project {
   role        String
   startDate   DateTime @map("start_date")
   endDate     DateTime @map("end_date")
-  description String
+  description String   @db.Text
 
-  talent Talent @relation(fields: [talentId], references: [id])
+  talent Talent @relation(fields: [talentId], references: [id], onDelete: Cascade)
 
   @@map("projects")
 }

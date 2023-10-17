@@ -6,8 +6,8 @@ CREATE TABLE `talents` (
     `mbti` VARCHAR(191) NOT NULL,
     `experience` INTEGER NOT NULL,
     `last_education` VARCHAR(191) NOT NULL,
-    `start_education_date` DATETIME(3) NOT NULL,
-    `end_education_date` DATETIME(3) NOT NULL,
+    `start_education_year` INTEGER NOT NULL,
+    `end_education_year` INTEGER NOT NULL,
 
     PRIMARY KEY (`id`)
 ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
@@ -21,10 +21,10 @@ CREATE TABLE `projects` (
     `role` VARCHAR(191) NOT NULL,
     `start_date` DATETIME(3) NOT NULL,
     `end_date` DATETIME(3) NOT NULL,
-    `description` VARCHAR(191) NOT NULL,
+    `description` TEXT NOT NULL,
 
     PRIMARY KEY (`id`)
 ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
 -- AddForeignKey
-ALTER TABLE `projects` ADD CONSTRAINT `projects_talent_id_fkey` FOREIGN KEY (`talent_id`) REFERENCES `talents`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE `projects` ADD CONSTRAINT `projects_talent_id_fkey` FOREIGN KEY (`talent_id`) REFERENCES `talents`(`id`) ON DELETE CASCADE ON UPDATE CASCADE;
