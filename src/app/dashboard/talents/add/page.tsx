@@ -1,11 +1,11 @@
 import { AddTalentContextProvider } from '@/context/addTalentContext';
-import Form from './(components)/Form';
+import FormTalent from '@/components/organisms/talents/FormTalent';
 
 export default function AddTalentDashboard() {
   return (
     <AddTalentContextProvider>
       <div>
-        <Form />
+        <FormTalent />
       </div>
     </AddTalentContextProvider>
   );

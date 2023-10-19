@@ -1,109 +1,54 @@
-import Input from '@/components/atoms/form/Input';
-import ModalAvatar from '@/components/molecules/modals/ModalAvatar';
+'use client';
+
+import { createTalentApi } from '@/apis/talentApis';
+import Button from '@/components/atoms/Button';
+import FullScreenLoading from '@/components/atoms/loading/FullScreenLoading';
 import { useAddTalentContext } from '@/context/addTalentContext';
-import { CreateTalentSchema, CreateTalentValidator } from '@/validators/talentValidator';
-import { zodResolver } from '@hookform/resolvers/zod';
-import Image from 'next/image';
-import { useEffect, useState } from 'react';
-import { useForm } from 'react-hook-form';
-import { ImCamera } from 'react-icons/im';
+import { useMutation } from '@tanstack/react-query';
+import { AxiosError } from 'axios';
+import { useRouter } from 'next/navigation';
+import { toast } from 'react-hot-toast';
+import { MdNavigateNext } from 'react-icons/md';
+import AddTalentData from './AddTalentData';
+import AddTalentProject from './AddTalentProject';
 
 export default function FormTalent() {
-  const { setValidStep, setTalent } = useAddTalentContext();
-  const [modalOpen, setModalOpen] = useState(false);
-  const {
-    register,
-    setValue,
-    getValues,
-    formState: { errors, isValid },
-    watch,
-  } = useForm<Omit<CreateTalentSchema, 'projects'>>({
-    defaultValues: {
-      avatar: '',
-      name: '',
-      mbti: '',
-      experience: 0,
-      lastEducation: '',
-      startEducationYear: 0,
-      endEducationYear: 0,
+  const router = useRouter();
+  const { step, setStep, validStep, talent, reset } = useAddTalentContext();
+
+  const { mutate: createTalent, isPending } = useMutation({
+    mutationFn: createTalentApi,
+    onError: (error: AxiosError<any>) => {
+      const msg = error.response.data.message || 'Failed, please try again.';
+      toast.error(msg);
     },
-    mode: 'onBlur',
-    resolver: zodResolver(CreateTalentValidator.omit({ projects: true })),
+    onSuccess: (data) => {
+      const msg = data.message || 'Create talent successfully.';
+      toast.success(msg);
+      reset();
+      router.replace('/dashboard/talents', { scroll: true });
+    },
   });
 
-  watch((data) => setTalent(data));
+  const handleSubmit = () => createTalent(talent);
 
-  useEffect(() => {
-    setValidStep(isValid);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [isValid]);
   return (
-    <div className='flex items-center justify-center flex-col gap-4'>
-      <div
-        className='w-56 h-56 rounded-full overflow-hidden bg-white text-gray-500 flex items-center justify-center'
-        onClick={() => setModalOpen(true)}
-      >
-        {!!getValues('avatar') ? (
-          <Image src={getValues('avatar')} alt='avatar' width={224} height={224} />
-        ) : (
-          <div className='p-14 flex flex-col gap-1 justify-center items-center'>
-            <ImCamera size={76} />
-            <p className='font-semibold text-center'>Choose an avatar</p>
-          </div>
+    <>
+      <section className='flex items-center justify-between relative'>
+        <h1 className='font-bold text-3xl inline-flex items-center gap-5'>Add Talent Information</h1>
+        {step === 1 && (
+          <Button disabled={!validStep} onClick={() => setStep(step + 1)}>
+            Next
+            <MdNavigateNext size={24} />
+          </Button>
         )}
-      </div>
-      <div className='w-full space-y-3'>
-        <Input
-          label='Talent Name'
-          className='w-full'
-          {...register('name')}
-          isError={!!errors.name}
-          error={errors.name?.message}
-        />
-        <div className='grid grid-cols-2 gap-10'>
-          <Input
-            label='MBTI'
-            className='w-full'
-            {...register('mbti')}
-            isError={!!errors.mbti}
-            error={errors.mbti?.message}
-          />
-          <Input
-            type='number'
-            label='Experience (years)'
-            className='w-full'
-            {...register('experience')}
-            isError={!!errors.experience}
-            error={errors.experience?.message}
-          />
-        </div>
-        <Input
-          label='Last education'
-          className='w-full'
-          {...register('lastEducation')}
-          isError={!!errors.lastEducation}
-          error={errors.lastEducation?.message}
-        />
-        <div className='grid grid-cols-2 gap-10'>
-          <Input
-            type='number'
-            label='Start year'
-            className='w-full'
-            {...register('startEducationYear')}
-            isError={!!errors.startEducationYear}
-            error={errors.startEducationYear?.message}
-          />
-          <Input
-            type='number'
-            label='End year'
-            className='w-full'
-            {...register('endEducationYear')}
-            isError={!!errors.endEducationYear}
-            error={errors.endEducationYear?.message}
-          />
-        </div>
-      </div>
-      <ModalAvatar open={modalOpen} onOpenChange={setModalOpen} onValueChange={(val) => setValue('avatar', val)} />
-    </div>
+        {step === 2 && <Button onClick={handleSubmit}>Save</Button>}
+      </section>
+      <section className='mt-10 relative'>
+        {step === 1 && <AddTalentData />}
+        {step === 2 && <AddTalentProject />}
+      </section>
+      {isPending && <FullScreenLoading text='Creating talent...' />}
+    </>
   );
 }

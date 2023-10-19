@@ -1,11 +1,9 @@
 import Button from '@/components/atoms/Button';
-import Input from '@/components/atoms/form/Input';
-import TalentCard from '@/components/molecules/card/TalentCard';
+import FilterFormTalent from '@/components/organisms/talents/FilterFormTalent';
+import ListTalents from '@/components/organisms/talents/ListTalents';
 import Link from 'next/link';
 import { AiOutlinePlus, AiOutlineUnorderedList } from 'react-icons/ai';
-import { BiSearch } from 'react-icons/bi';
 import { BsPeople } from 'react-icons/bs';
-import { RiFilter2Fill } from 'react-icons/ri';
 
 export default function page() {
   return (
@@ -28,21 +26,8 @@ export default function page() {
           </Button>
         </div>
       </section>
-      <section className='mt-7 flex justify-between items-center'>
-        <div className='flex gap-2'>
-          <Input left={<BiSearch size={25} className='text-gray-500' />} placeholder='Search name talent' />
-          <Button variant='bordered'>Search</Button>
-        </div>
-        <Button variant='default'>
-          <RiFilter2Fill size={20} />
-          Filter
-        </Button>
-      </section>
-      <section className='grid grid-cols-5 gap-7 mt-14'>
-        {Array.from({ length: 15 }).map((_, i) => (
-          <TalentCard key={i} name='Rizal Muttaqin' role='Front End' dateAdded='12 Jul 13' />
-        ))}
-      </section>
+      <FilterFormTalent />
+      <ListTalents />
     </>
   );
 }
