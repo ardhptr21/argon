@@ -29,9 +29,12 @@ export const POST = async (req: NextRequest) => {
 
     return NextResponse.json({ success: true, message: 'Talent created.', data: talent });
   } catch (error) {
-    return NextResponse.json({
-      success: false,
-      message: 'Error while creating talent, try again later.',
-    });
+    return NextResponse.json(
+      {
+        success: false,
+        message: 'Error while creating talent, try again later.',
+      },
+      { status: 500 }
+    );
   }
 };

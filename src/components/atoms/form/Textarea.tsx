@@ -1,5 +1,5 @@
 import clsx from 'clsx';
-import { TextareaHTMLAttributes } from 'react';
+import { TextareaHTMLAttributes, forwardRef } from 'react';
 
 const typeVariant = {
   filled: 'bg-white',
@@ -16,17 +16,21 @@ interface IProps extends TextareaHTMLAttributes<HTMLTextAreaElement> {
   className?: string;
   variant?: keyof typeof typeVariant;
   size?: keyof typeof sizeVariant;
+  isError?: boolean;
+  error?: string;
 }
 
-export default function Textarea({ label, className, variant, ...props }: IProps) {
+function Textarea({ label, className, variant, isError, error, ...props }: IProps, ref: any) {
   return (
-    <div className='flex flex-col gap-1'>
+    <div className='flex flex-col gap-1' ref={ref}>
       {label && <p className='font-semibold'>{label}</p>}
       <div
         className={clsx([
-          'group flex items-center gap-3 border-2 border-gray-300 rounded focus-within:border-primary',
+          'group flex items-center gap-3 border-2 rounded focus-within:border-primary',
           typeVariant[variant || 'filled'],
           sizeVariant[props.size || 'base'],
+          { 'border-red-500': isError },
+          { 'border-gray-300': !isError },
           className,
         ])}
       >
@@ -35,6 +39,9 @@ export default function Textarea({ label, className, variant, ...props }: IProps
           className='outline-none font-semibold text-gray-500 placeholder:font-semibold placeholder:tracking-wide bg-transparent w-full'
         />
       </div>
+      {isError && <small className='text-red-500'>{error}</small>}
     </div>
   );
 }
+
+export default forwardRef(Textarea);

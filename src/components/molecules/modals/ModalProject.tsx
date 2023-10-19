@@ -1,13 +1,41 @@
 import Button from '@/components/atoms/Button';
 import Input from '@/components/atoms/form/Input';
 import Textarea from '@/components/atoms/form/Textarea';
+import { CreateProjectSchema, CreateProjectValidator } from '@/validators/projectValidator';
+import { zodResolver } from '@hookform/resolvers/zod';
 import * as Dialog from '@radix-ui/react-dialog';
+import { useForm } from 'react-hook-form';
 import { AiOutlineClose } from 'react-icons/ai';
 import { IoImageOutline } from 'react-icons/io5';
 
-interface IProps extends Dialog.DialogProps {}
+interface IProps extends Dialog.DialogProps {
+  onSubmit?: (_project: CreateProjectSchema) => void;
+}
 
-export default function ModalProject(props: IProps) {
+export default function ModalProject({ onSubmit, ...props }: IProps) {
+  const {
+    register,
+    getValues,
+    reset,
+    formState: { errors, isValid },
+  } = useForm<CreateProjectSchema>({
+    defaultValues: {
+      name: '',
+      role: '',
+      startDate: '',
+      endDate: '',
+      description: '',
+    },
+    resolver: zodResolver(CreateProjectValidator),
+    mode: 'onBlur',
+  });
+
+  const handleClick = () => {
+    if (!isValid) return;
+    onSubmit(getValues());
+    reset();
+  };
+
   return (
     <Dialog.Root {...props}>
       <Dialog.DialogPortal>
@@ -29,14 +57,48 @@ export default function ModalProject(props: IProps) {
               </p>
             </div>
             <div className='grid grid-cols-2 gap-5'>
-              <Input size='sm' label='Project Name' />
-              <Input size='sm' label='Role' />
-              <Input type='date' size='sm' label='Start Month' />
-              <Input type='date' size='sm' label='End Month' />
+              <Input
+                size='sm'
+                label='Project Name'
+                {...register('name')}
+                isError={!!errors.name}
+                error={errors.name?.message}
+              />
+              <Input
+                size='sm'
+                label='Role'
+                {...register('role')}
+                isError={!!errors.role}
+                error={errors.role?.message}
+              />
+              <Input
+                type='date'
+                size='sm'
+                label='Start Month'
+                {...register('startDate')}
+                isError={!!errors.startDate}
+                error={errors.startDate?.message}
+              />
+              <Input
+                type='date'
+                size='sm'
+                label='End Month'
+                {...register('endDate')}
+                isError={!!errors.endDate}
+                error={errors.endDate?.message}
+              />
             </div>
           </div>
-          <Textarea label='Task Description' rows={8} />
-          <Button className='ml-auto px-12'>Submit</Button>
+          <Textarea
+            label='Task Description'
+            rows={8}
+            {...register('description')}
+            isError={!!errors.description}
+            error={errors.description?.message}
+          />
+          <Button className='ml-auto px-12' disabled={!isValid} onClick={handleClick}>
+            Submit
+          </Button>
         </Dialog.DialogContent>
       </Dialog.DialogPortal>
     </Dialog.Root>

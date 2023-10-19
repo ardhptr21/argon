@@ -17,7 +17,7 @@ export default function Button({ children, className, variant, ...props }: IProp
     <button
       {...props}
       className={clsx([
-        'flex items-center justify-center gap-2 py-4 px-8 rounded font-medium duration-150',
+        'flex items-center justify-center gap-2 py-4 px-8 rounded font-medium duration-150 disabled:opacity-50 disabled:cursor-not-allowed',
         variantStyle[variant ?? 'primary'],
         className,
       ])}
