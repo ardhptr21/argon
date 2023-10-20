@@ -1,11 +1,12 @@
 import Badge from '@/components/atoms/Badge';
+import { format } from 'date-fns';
 import Image from 'next/image';
 
 interface IProps {
-  avatar?: string;
+  avatar: string;
   name: string;
   role: string;
-  dateAdded: string;
+  dateAdded: Date;
 }
 
 export default function TalentCard({ name, role, dateAdded, avatar }: IProps) {
@@ -20,7 +21,7 @@ export default function TalentCard({ name, role, dateAdded, avatar }: IProps) {
       <h2 className='font-bold text-xl'>{name}</h2>
       <div className='text-center'>
         <p className='font-bold text-gray-500'>Date Added</p>
-        <p className='text-sm text-gray-400 font-medium'>{dateAdded}</p>
+        <p className='text-sm text-gray-400 font-medium'>{format(new Date(dateAdded), 'dd MMM yyyy')}</p>
       </div>
     </div>
   );

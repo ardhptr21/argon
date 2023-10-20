@@ -22,6 +22,7 @@ export default function AddTalentData() {
       avatar: '',
       name: '',
       mbti: '',
+      role: '',
       experience: 0,
       lastEducation: '',
       startEducationYear: 0,
@@ -60,13 +61,20 @@ export default function AddTalentData() {
           isError={!!errors.name}
           error={errors.name?.message}
         />
-        <div className='grid grid-cols-2 gap-10'>
+        <div className='grid grid-cols-3 gap-10'>
           <Input
             label='MBTI'
             className='w-full'
             {...register('mbti')}
             isError={!!errors.mbti}
             error={errors.mbti?.message}
+          />
+          <Input
+            label='Role'
+            className='w-full'
+            {...register('role')}
+            isError={!!errors.role}
+            error={errors.role?.message}
           />
           <Input
             type='number'

@@ -5,7 +5,7 @@ import { NextRequest, NextResponse } from 'next/server';
 
 export const GET = async (req: NextRequest) => {
   const params = req.nextUrl.searchParams;
-  const search = params.get('search');
+  const search = params.get('search') || '';
   const page = Number(params.get('page')) || 1;
   const limit = Number(params.get('limit')) || 10;
 
@@ -16,6 +16,7 @@ export const GET = async (req: NextRequest) => {
       where: { name: { contains: search } },
       take: limit,
       skip: (page - 1) * limit,
+      orderBy: { createdAt: 'desc' },
     });
 
     const meta = {
