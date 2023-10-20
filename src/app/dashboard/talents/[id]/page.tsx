@@ -1,10 +1,29 @@
 import Badge from '@/components/atoms/Badge';
 import Button from '@/components/atoms/Button';
 import ProjectCard from '@/components/molecules/card/ProjectCard';
+import { db } from '@/lib/db';
+import Image from 'next/image';
+import { notFound } from 'next/navigation';
 import { BiEdit } from 'react-icons/bi';
 import { RiBriefcaseFill } from 'react-icons/ri';
 
-export default function page() {
+interface IProps {
+  params: {
+    id: string;
+  };
+}
+
+const getTalent = async (id: string) => {
+  const talent = await db.talent.findFirst({ where: { id }, include: { projects: true } });
+
+  if (!talent) throw notFound();
+
+  return talent;
+};
+
+export default async function TalentDetail({ params: { id } }: IProps) {
+  const talent = await getTalent(id);
+
   return (
     <>
       <section className='flex items-center justify-between'>
@@ -16,25 +35,29 @@ export default function page() {
       </section>
       <section className='bg-white p-10 rounded shadow-md flex items-center gap-10 mt-14'>
         <div className='flex flex-col items-center'>
-          <div className='w-80 h-80 rounded-full bg-gray-200'></div>
-          <Badge text='Front End' size='lg' className='bg-primary text-white px-12 -mt-8' />
+          <div className='w-80 h-80 rounded-full bg-gray-200 relative overflow-hidden'>
+            <Image src={talent.avatar} alt={talent.name} fill={true} priority sizes='100%' />
+          </div>
+          <Badge text='Front End' size='lg' className='bg-primary text-white px-12 -mt-8 z-10' />
         </div>
         <div className='space-y-10'>
-          <h1 className='font-bold text-5xl'>Arifatul Khasanah</h1>
+          <h1 className='font-bold text-5xl'>{talent.name}</h1>
           <div className='flex items-center gap-16'>
             <div className='space-y-2'>
               <p className='text-gray-500 text-xl font-medium'>MBTI</p>
-              <p className='text-3xl font-bold'>ENFJ</p>
+              <p className='text-3xl font-bold'>{talent.mbti}</p>
             </div>
             <div className='space-y-2'>
               <p className='text-gray-500 text-xl font-medium'>Experience</p>
-              <p className='text-3xl font-bold'>7 Years</p>
+              <p className='text-3xl font-bold'>{talent.experience} Years</p>
             </div>
             <div className='space-y-2'>
               <p className='text-gray-500 text-xl font-medium'>Education</p>
               <div>
-                <p className='text-3xl font-bold'>Universitas Negeri Semarang</p>
-                <p className='text-gray-500 text-xl'>2017 - 2021</p>
+                <p className='text-3xl font-bold'>{talent.lastEducation}</p>
+                <p className='text-gray-500 text-xl'>
+                  {talent.startEducationYear} - {talent.endEducationYear}
+                </p>
               </div>
             </div>
           </div>
@@ -59,22 +82,19 @@ export default function page() {
             <RiBriefcaseFill />
             Related Projects
           </p>
-          <p className='text-primary font-bold text-xl'>Finished Projects: 5</p>
+          <p className='text-primary font-bold text-xl'>Finished Projects: {talent.projects.length}</p>
         </div>
         <div className='mt-10 space-y-5'>
-          <ProjectCard
-            title='Alkindikids'
-            period='2022 - Present'
-            role='Front End'
-            description='Tanta petere igitur, ne sineres memini fieri etiam aliquam inclinationem ad consequendum minima. Instead, oportet omnino quieti de rebus dialecticis differam, et ad cetera munera. Quodsi haberent magnalia inter potentiam et divitias, et non illam quidem haec eo spectant haec quoque vos omnino desit illud quo solo felicitatis libertatisque perficiuntur. Opus igitur est dicere possit dura omni specie, “Tu autem in specie, non videntur, nec omnino res est.”'
-          />
-          <ProjectCard
-            title='RSIGM - Unisula'
-            period='2020 - 2023'
-            role='Fullstack'
-            description='Lorem ipsum dolor sit amet consectetur. Egestas diam aenean ut netus. Posuere tincidunt purus volutpat amet quisque netus proin. Platea mi est ac cras eu non sed porttitor. Pulvinar pharetra nunc sed posuere ultrices lorem id scelerisque. Arcu nulla et ac hendrerit sed velit in diam. Morbi tortor fringilla cras feugiat sapien consequat in. Faucibus magna felis sed vestibulum ultricies lorem congue maecenas. At ac maecenas lorem est erat odio in rhoncus vitae. Viverra sit sed auctor proin consequat nisi. Viverra sit diam ultricies nisi nisl adipiscing amet venenatis.
-            Aliquet a mattis in id quam dui dictumst nunc. Adipiscing nec vel turpis suspendisse neque tortor. Phasellus sit mauris.'
-          />
+          {talent.projects.map((project) => (
+            <ProjectCard
+              key={project.id}
+              title={project.name}
+              periodStart={project.startDate}
+              periodEnd={project.endDate}
+              role={project.role}
+              description={project.description}
+            />
+          ))}
         </div>
       </section>
     </>

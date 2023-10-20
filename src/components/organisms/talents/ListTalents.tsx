@@ -26,10 +26,9 @@ export default function ListTalents() {
           : talents?.data?.map((talent: Talent) => (
               <TalentCard
                 key={talent.id}
-                name={talent.name}
-                role={talent.role}
-                avatar={talent.avatar}
+                {...talent}
                 dateAdded={talent.createdAt}
+                href={`/dashboard/talents/${talent.id}`}
               />
             ))}
       </div>
