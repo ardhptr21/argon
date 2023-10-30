@@ -4,15 +4,18 @@ import Textarea from '@/components/atoms/form/Textarea';
 import { CreateProjectSchema, CreateProjectValidator } from '@/validators/projectValidator';
 import { zodResolver } from '@hookform/resolvers/zod';
 import * as Dialog from '@radix-ui/react-dialog';
+import { format } from 'date-fns';
+import { useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import { AiOutlineClose } from 'react-icons/ai';
 import { IoImageOutline } from 'react-icons/io5';
 
 interface IProps extends Dialog.DialogProps {
+  defaultValues?: CreateProjectSchema;
   onSubmit?: (_project: CreateProjectSchema) => void;
 }
 
-export default function ModalProject({ onSubmit, ...props }: IProps) {
+export default function ModalProject({ onSubmit, defaultValues, ...props }: IProps) {
   const {
     register,
     getValues,
@@ -20,19 +23,32 @@ export default function ModalProject({ onSubmit, ...props }: IProps) {
     formState: { errors, isValid },
   } = useForm<CreateProjectSchema>({
     defaultValues: {
-      name: '',
-      role: '',
-      startDate: '',
-      endDate: '',
-      description: '',
+      name: defaultValues?.name || '',
+      role: defaultValues?.role || '',
+      startDate: defaultValues?.startDate || '',
+      endDate: defaultValues?.endDate || '',
+      description: defaultValues?.description || '',
     },
     resolver: zodResolver(CreateProjectValidator),
     mode: 'onBlur',
   });
 
+  useEffect(() => {
+    if (defaultValues) {
+      reset({
+        ...defaultValues,
+        startDate: defaultValues.startDate ? format(defaultValues.startDate as Date, 'yyyy-MM-dd') : undefined,
+        endDate: defaultValues.endDate ? format(defaultValues.endDate as Date, 'yyyy-MM-dd') : undefined,
+      });
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [defaultValues]);
+
   const handleClick = () => {
     if (!isValid) return;
-    onSubmit(getValues());
+    if (onSubmit) {
+      onSubmit(getValues());
+    }
     reset();
   };
 

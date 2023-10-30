@@ -18,7 +18,7 @@ const sizeVariant = {
 interface IProps {
   title: string;
   periodStart: Date;
-  periodEnd?: Date;
+  periodEnd?: Date | null;
   role: string;
   description: string;
   withSideLine?: boolean;

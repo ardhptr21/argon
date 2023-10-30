@@ -8,7 +8,7 @@ export const CreateProjectValidator = z.object({
     .string()
     .max(191)
     .regex(/^\d{4}-\d{2}-\d{2}$/)
-    .transform((val) => new Date(val)),
+    .transform((val) => new Date(val) as string | Date),
   endDate: z
     .string()
     .max(191)

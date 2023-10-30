@@ -5,6 +5,7 @@ import { db } from '@/lib/db';
 import Image from 'next/image';
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
+import { AiOutlinePlus } from 'react-icons/ai';
 import { BiEdit } from 'react-icons/bi';
 import { RiBriefcaseFill } from 'react-icons/ri';
 
@@ -86,6 +87,18 @@ export default async function TalentDetail({ params: { id } }: IProps) {
             Related Projects
           </p>
           <p className='text-primary font-bold text-xl'>Finished Projects: {talent.projects.length}</p>
+          <div className='inline-flex gap-2'>
+            <Button variant='bordered'>
+              <AiOutlinePlus size={20} />
+              Add New Related Project
+            </Button>
+            <Link href={`/dashboard/talents/${id}/projects/edit`}>
+              <Button variant='default' className='bg-transparent border-2 border-gray-200 hover:bg-gray-100'>
+                <BiEdit size={20} />
+                Edit
+              </Button>
+            </Link>
+          </div>
         </div>
         <div className='mt-10 space-y-5'>
           {talent.projects.map((project) => (

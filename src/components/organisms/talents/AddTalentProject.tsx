@@ -52,7 +52,8 @@ export default function AddTalentProject() {
               size='base'
               title={project.name}
               description={project.description}
-              period={`${project.startDate} - ${project.endDate}`}
+              periodStart={project.startDate as any}
+              periodEnd={project.endDate as any}
               role={project.role}
               withSideLine={false}
             />
