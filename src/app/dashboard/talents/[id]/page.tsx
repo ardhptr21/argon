@@ -3,6 +3,7 @@ import Button from '@/components/atoms/Button';
 import ProjectCard from '@/components/molecules/card/ProjectCard';
 import { db } from '@/lib/db';
 import Image from 'next/image';
+import Link from 'next/link';
 import { notFound } from 'next/navigation';
 import { BiEdit } from 'react-icons/bi';
 import { RiBriefcaseFill } from 'react-icons/ri';
@@ -28,10 +29,12 @@ export default async function TalentDetail({ params: { id } }: IProps) {
     <>
       <section className='flex items-center justify-between'>
         <h1 className='font-bold text-3xl inline-flex items-center gap-5'>Detail Talent</h1>
-        <Button variant='bordered'>
-          <BiEdit size={20} />
-          Edit
-        </Button>
+        <Link href={`/dashboard/talents/${id}/edit`}>
+          <Button variant='bordered'>
+            <BiEdit size={20} />
+            Edit
+          </Button>
+        </Link>
       </section>
       <section className='bg-white p-10 rounded shadow-md flex items-center gap-10 mt-14'>
         <div className='flex flex-col items-center'>
