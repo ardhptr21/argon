@@ -13,3 +13,6 @@ export const CreateTalentValidator = z.object({
   projects: z.array(CreateProjectValidator).nonempty(),
 });
 export type CreateTalentSchema = z.infer<typeof CreateTalentValidator>;
+
+export const EditTalentValidator = CreateTalentValidator.omit({ projects: true });
+export type EditTalentSchema = z.infer<typeof EditTalentValidator>;
