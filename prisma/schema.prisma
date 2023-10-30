@@ -21,6 +21,7 @@ model Talent {
   updatedAt          DateTime @updatedAt @map("updated_at")
 
   projects Project[]
+  links    Link[]
 
   @@map("talents")
 }
@@ -40,4 +41,19 @@ model Project {
   talent Talent @relation(fields: [talentId], references: [id], onDelete: Cascade)
 
   @@map("projects")
+}
+
+model Link {
+  id        String   @id @default(uuid())
+  slug      String
+  startDate DateTime @map("start_date")
+  endDate   DateTime @map("end_date")
+  target    String
+  passcode  String
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  talents Talent[]
+
+  @@map("links")
 }
