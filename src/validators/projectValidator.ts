@@ -14,8 +14,10 @@ export const CreateProjectValidator = z.object({
     .max(191)
     .regex(/^\d{4}-\d{2}-\d{2}$/)
     .optional()
-    .transform((val) => new Date(val)),
+    .transform((val) => (val ? new Date(val) : val)),
   description: z.string().min(1),
 });
-
 export type CreateProjectSchema = z.infer<typeof CreateProjectValidator>;
+
+export const EditProjectValidator = CreateProjectValidator;
+export type EditProjectSchema = z.infer<typeof EditProjectValidator>;
