@@ -1,7 +1,7 @@
 'use client';
 
 import { usePathname } from 'next/navigation';
-import { AiOutlineDashboard } from 'react-icons/ai';
+import { AiOutlineDashboard, AiOutlineLink } from 'react-icons/ai';
 import { BiLogOutCircle } from 'react-icons/bi';
 import { BsPeople } from 'react-icons/bs';
 import SidenavItem from '../atoms/sidenav/SidenavItem';
@@ -13,6 +13,7 @@ export default function Sidenav() {
     <aside className='h-screen max-w-max bg-blue-light flex flex-col justify-between py-12 px-7'>
       <div className='flex flex-col gap-4'>
         <SidenavItem href='/dashboard' active={pathname === '/dashboard'} icon={AiOutlineDashboard} />
+        <SidenavItem href='/dashboard/links' active={pathname.startsWith('/dashboard/links')} icon={AiOutlineLink} />
         <SidenavItem href='/dashboard/talents' active={pathname.startsWith('/dashboard/talents')} icon={BsPeople} />
       </div>
       <div>
