@@ -1,6 +1,6 @@
 'use client';
 
-import { CreateLinkApi } from '@/apis/linkApi';
+import { createLinkApi } from '@/apis/linkApi';
 import Badge from '@/components/atoms/Badge';
 import Button from '@/components/atoms/Button';
 import Input from '@/components/atoms/form/Input';
@@ -61,7 +61,7 @@ export default function AddLinkForm({ talents }: IProps) {
   };
 
   const { mutate: createLink, isPending } = useMutation({
-    mutationFn: CreateLinkApi,
+    mutationFn: createLinkApi,
     onSuccess: (data) => {
       const msg = data.message || 'Link created successfully.';
       router.push('/dashboard/links');
