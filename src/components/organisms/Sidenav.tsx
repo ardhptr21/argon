@@ -1,5 +1,6 @@
 'use client';
 
+import { signOut } from 'next-auth/react';
 import { usePathname } from 'next/navigation';
 import { AiOutlineDashboard, AiOutlineLink } from 'react-icons/ai';
 import { BiLogOutCircle } from 'react-icons/bi';
@@ -17,7 +18,10 @@ export default function Sidenav() {
         <SidenavItem href='/dashboard/talents' active={pathname.startsWith('/dashboard/talents')} icon={BsPeople} />
       </div>
       <div>
-        <button className='h-12 w-12 bg-red-500 rounded-full shadow-slate-400 shadow-md flex items-center justify-center text-white'>
+        <button
+          className='h-12 w-12 bg-red-500 rounded-full shadow-slate-400 shadow-md flex items-center justify-center text-white'
+          onClick={() => signOut()}
+        >
           <BiLogOutCircle size={24} />
         </button>
       </div>
