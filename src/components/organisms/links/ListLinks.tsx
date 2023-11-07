@@ -54,7 +54,10 @@ export default function ListLinks() {
                   <p className='font-medium text-gray-400'>{format(new Date(link.endDate), 'dd MMM yyyy')}</p>
                 </TableItem>
                 <TableItem>
-                  <Link href='#' className='rounded-full bg-blue-200 p-2 hover:bg-blue-300 inline-block'>
+                  <Link
+                    href={`/dashboard/links/${link.id}`}
+                    className='rounded-full bg-blue-200 p-2 hover:bg-blue-300 inline-block'
+                  >
                     <RiArrowRightSLine />
                   </Link>
                 </TableItem>

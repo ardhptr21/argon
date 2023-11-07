@@ -4,7 +4,7 @@ import ListLinks from '@/components/organisms/links/ListLinks';
 import Link from 'next/link';
 import { AiOutlineLink, AiOutlinePlus } from 'react-icons/ai';
 
-export default function page() {
+export default function LinkPage() {
   return (
     <>
       <section className='flex items-center justify-between'>
