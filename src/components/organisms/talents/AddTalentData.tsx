@@ -32,7 +32,7 @@ export default function AddTalentData() {
     resolver: zodResolver(CreateTalentValidator.omit({ projects: true })),
   });
 
-  watch((data) => setTalent(data));
+  watch((data) => setTalent(data as any));
 
   useEffect(() => {
     setValidStep(isValid);

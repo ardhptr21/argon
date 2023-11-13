@@ -19,7 +19,7 @@ export default function FormTalent() {
   const { mutate: createTalent, isPending } = useMutation({
     mutationFn: createTalentApi,
     onError: (error: AxiosError<any>) => {
-      const msg = error.response.data.message || 'Failed, please try again.';
+      const msg = error?.response?.data.message || 'Failed, please try again.';
       toast.error(msg);
     },
     onSuccess: (data) => {

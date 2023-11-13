@@ -16,7 +16,7 @@ interface IProps {
   };
 }
 
-export const getLink = async (id: string) => {
+const getLink = async (id: string) => {
   const link = await db.link.findFirst({ where: { id }, include: { talents: true } });
   if (!link) throw notFound();
   return link;

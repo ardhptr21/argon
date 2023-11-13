@@ -56,7 +56,7 @@ export const POST = async (req: NextRequest) => {
         ...data,
         projects: {
           createMany: {
-            data: projects,
+            data: projects as any,
           },
         },
       },

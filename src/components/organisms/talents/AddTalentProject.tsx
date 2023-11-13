@@ -15,7 +15,7 @@ export default function AddTalentProject() {
   const [projects, setProjects] = useState<CreateProjectSchema[]>([]);
 
   useEffect(() => {
-    setTalent({ projects: projects as any });
+    setTalent({ projects: projects } as any);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [projects]);
 

@@ -8,7 +8,7 @@ interface IProps {
   };
 }
 
-export const getLink = async (linkSlug: string) => {
+const getLink = async (linkSlug: string) => {
   const link = await db.link.findFirst({
     where: { slug: linkSlug },
     include: {

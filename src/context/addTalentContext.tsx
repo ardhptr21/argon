@@ -21,7 +21,7 @@ export const AddTalentContext = createContext<{
   setStep: (_step: number) => void;
   setTalent: (_talent: CreateTalentSchema) => void;
   reset: () => void;
-}>(initialValue);
+}>(initialValue as any);
 
 export const AddTalentContextProvider = ({ children }: PropsWithChildren) => {
   const [data, setData] = useState({ step: 1, validStep: false, talent: {} });
@@ -30,7 +30,7 @@ export const AddTalentContextProvider = ({ children }: PropsWithChildren) => {
       value={{
         step: data.step,
         validStep: data.validStep,
-        talent: data.talent,
+        talent: data.talent as any,
         setValidStep: (validStep: boolean) => setData({ ...data, validStep }),
         setStep: (step: number) => setData({ ...data, step }),
         setTalent: (talent: CreateTalentSchema) => setData({ ...data, talent: { ...data.talent, ...talent } }),
